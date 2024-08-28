@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advertisements</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <script src="/main.js"></script>
+    <link href="main.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">Ofertownia</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/categories.html">Kategorie</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/search.html">Szukaj</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/add.html">Dodaj</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron home-jumbo">
+        <div class="container text-center text-white">
+            <h1 class="display-3">Ofertownia</h1>
+            <p>Dodaj nowe ogłoszenie</p>
+        </div>
+    </div>
+
+    <div class="container container-main">
+        <form class="col-6 mx-auto mb-5" id="add-form">
+            <div class="form-group">
+                <label for="titleInput">Tytuł</label>
+                <input type="text" class="form-control" id="titleInput" placeholder="Przykładowy tytuł" name="title">
+            </div>
+            <div class="form-group">
+                <label for="imgUrlInput">Url obrazka</label>
+                <input type="url" class="form-control" id="imgUrlInput" placeholder="http://.../obrazek.jpg" name="imgUrl">
+            </div>
+            <div class="form-group">
+                <label for="priceInput">Cena</label>
+                <input type="number" class="form-control" id="priceInput" placeholder="123,99" min="0.00" max="10000.00" step="0.01" name="price">
+            </div>
+            <div class="form-group">
+                <label for="descriptionInput">Opis</label>
+                <textarea class="form-control" id="descriptionInput" placeholder="Szczegółowy opis ogłoszenia" rows="10" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="categorySelect">Kategoria</label>
+                <select class="form-control" id="categorySelect" name="category">
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="add-button">Dodaj</button>
+            <div id="err-message" style="display:none">Błąd komunikacji z serwerem</div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
