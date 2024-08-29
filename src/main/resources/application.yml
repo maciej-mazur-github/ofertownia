@@ -6,3 +6,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  mail:
+    host: localhost
+    port: 1025
+    username: security@spring.com
+logging:
+  level:
+    org.springframework.security.web: DEBUG

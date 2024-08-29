@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Wyszukiwarka</title>
+    <script th:inline="javascript">
+        let pathToOffer = [[${pathToOffer}]];
+    </script>
+</head>
+<body>
+
+    <div class="jumbotron home-jumbo"
+         th:style="|background-image:url(@{/img/jumbo-back.jpg})|"
+         layout:fragment="custom-jumbotron">
+        <div class="container text-center text-white">
+            <h1 class="display-3">Szukaj ogłoszeń</h1>
+            <form class="form-inline justify-content-center" id="search-form">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search-input">
+                <button class="btn btn-outline-success my-2 my-sm-0 search-button" type="submit">Szukaj</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container container-main" layout:fragment="main-container">
+        <div class="row">
+            <h2>Szukaj wśród naszych ogłoszeń</h2>
+        </div>
+    </div>
+
+</body>
+</html>

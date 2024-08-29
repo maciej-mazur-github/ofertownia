@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Edycja danych użytkownika</title>
+</head>
+<body>
+
+<div layout:fragment="custom-jumbotron" th:replace="~{fragments :: general-jumbotron}">
+</div>
+
+<div class="container container-main login-form" layout:fragment="main-container">
+    <h2>Edytuj dane</h2>
+    <form action="#" th:action="@{/edycja}" method="post" th:object="${userEditingDto}">
+        <div class="mb-3">
+            <label for="exampleFormControlInput3" class="form-label">Imię</label>
+            <input type="text" class="form-control" id="exampleFormControlInput3" th:field="*{firstName}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput4" class="form-label">Nazwisko</label>
+            <input type="text" class="form-control" id="exampleFormControlInput4" th:field="*{lastName}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput2" class="form-label">Stare hasło (obowiązkowe)</label>
+            <input type="password" class="form-control" id="exampleFormControlInput2" th:field="*{oldPassword}" required>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput6" class="form-label">Nowe hasło (opcjonalne)</label>
+            <input type="password" class="form-control" id="exampleFormControlInput6" th:field="*{newPassword}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email / nazwa użytkownika</label>
+            <input type="email"
+                   class="form-control"
+                   id="exampleFormControlInput1"
+                   placeholder="imie@mail.com"
+                   th:field="*{email}"
+                   readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Uprawnienia</label>
+            <input type="text" class="form-control" id="exampleFormControlInput5" th:field="*{roles}" readonly>
+        </div>
+
+        <button class="btn btn-primary mb-3" type="submit">Zapisz zmiany</button>
+    </form>
+    <p>
+        <a href="#" th:href="@{/}">Powrót do strony głównej</a>
+    </p>
+</div>
+
+</body>
+</html>

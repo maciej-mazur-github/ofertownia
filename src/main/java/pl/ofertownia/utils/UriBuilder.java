@@ -1,4 +1,4 @@
-package pl.javastart.restoffers.utils;
+package pl.ofertownia.utils;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

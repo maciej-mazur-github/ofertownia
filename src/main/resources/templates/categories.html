@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Kategorie</title>
+</head>
+<body>
+
+<div class="jumbotron home-jumbo"
+     th:style="|background-image:url(@{/img/jumbo-back.jpg})|"
+     layout:fragment="custom-jumbotron">
+    <div class="container text-center text-white">
+        <h1 class="display-3">Kategorie</h1>
+        <p>Poniżej znajdziesz listę kategorii w naszym serwisie.</p>
+    </div>
+</div>
+
+<div class="container container-main"
+     layout:fragment="main-container">
+    <div class="row">
+        <div class="loader mx-auto"></div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="nav"
+     class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/" th:href="@{/}">Ofertownia</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/kategorie}">Kategorie</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/szukaj}">Szukaj</a>
+            </li>
+            <li sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_SUPERADMIN')" class="nav-item active">
+                <a class="nav-link" th:href="@{/dodaj-oferte}">Dodaj</a>
+            </li>
+            <li class="nav-item active">
+                <span class="nav-link">|</span>
+            </li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item active">
+                <a class="nav-link" th:href="@{/rejestracja}">Zarejestruj</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item active">
+                <a class="nav-link" th:href="@{/edycja}">Edytuj</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item active">
+                <a class="nav-link"  href="/zaloguj" th:href="@{/zaloguj}">Zaloguj</a>
+            </li>
+            <li sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_SUPERADMIN')" class="nav-item active">
+                <a class="nav-link"  href="/admin" th:href="@{/admin}">Panel administratora</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item active">
+                <a class="nav-link"  href="/wyloguj" th:href="@{/wyloguj}">Wyloguj</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"
+                sec:authorize="isAuthenticated()">
+                <span class="nav-link" th:text="|Zalogowany jako ${#authentication.name}|"></span>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<div class="jumbotron home-jumbo"
+     th:style="|background-image:url(@{/img/jumbo-back.jpg})|"
+     th:fragment="general-jumbotron">
+    <div class="container text-center text-white jumbo-container">
+        <h1 class="display-3">Ofertownia</h1>
+        <p>W naszym serwisie znajdziesz tylko najlepsze oferty.</p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        let pathToOffer = [[${pathToOffer}]];
+    </script>
+</head>
+<body>
+
+<div layout:fragment="custom-jumbotron" th:replace="~{fragments :: general-jumbotron}">
+</div>
+
+    <div class="container container-main"
+         layout:fragment="main-container">
+        <div class="row">
+            <div class="loader mx-auto">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

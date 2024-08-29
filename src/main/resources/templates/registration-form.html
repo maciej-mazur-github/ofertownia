@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Zarejestruj konto</title>
+</head>
+<body>
+
+<div layout:fragment="custom-jumbotron" th:replace="~{fragments :: general-jumbotron}">
+</div>
+
+<div class="container container-main login-form" layout:fragment="main-container">
+    <h2>Zarejestruj się</h2>
+    <form action="#" th:action="@{/rejestracja}" method="post" th:object="${userRegistrationDto}">
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email / nazwa użytkownika</label>
+            <input type="email"
+                   class="form-control"
+                   id="exampleFormControlInput1"
+                   placeholder="imie@mail.com"
+                   th:field="*{email}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput2" class="form-label">Hasło</label>
+            <input type="password" class="form-control" id="exampleFormControlInput2" th:field="*{password}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput3" class="form-label">Imię</label>
+            <input type="text" class="form-control" id="exampleFormControlInput3" th:field="*{firstName}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput4" class="form-label">Nazwisko</label>
+            <input type="text" class="form-control" id="exampleFormControlInput4" th:field="*{lastName}">
+        </div>
+        <button class="btn btn-primary mb-3" type="submit">Zarejestruj się</button>
+    </form>
+    <p>
+        <a href="#" th:href="@{/reset-hasla}">Zapomniałeś hasła?</a>
+    </p>
+    <p>
+        <a href="#" th:href="@{/}">Powrót do strony głównej</a>
+    </p>
+</div>
+
+</body>
+</html>

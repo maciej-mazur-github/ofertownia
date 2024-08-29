@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Dodaj ofertę</title>
+</head>
+<body>
+    <div class="jumbotron home-jumbo"
+         th:style="|background-image:url(@{/img/jumbo-back.jpg})|"
+         layout:fragment="custom-jumbotron">
+        <div class="container text-center text-white">
+            <h1 class="display-3">Ofertownia</h1>
+            <p>Dodaj nowe ogłoszenie</p>
+        </div>
+    </div>
+
+    <div class="container container-main"
+         layout:fragment="main-container">
+        <form class="col-6 mx-auto mb-5" id="add-form">
+            <div class="form-group">
+                <label for="titleInput">Tytuł</label>
+                <input type="text" class="form-control" id="titleInput" placeholder="Przykładowy tytuł" name="title">
+            </div>
+            <div class="form-group">
+                <label for="imgUrlInput">Url obrazka</label>
+                <input type="url" class="form-control" id="imgUrlInput" placeholder="http://.../obrazek.jpg" name="imgUrl">
+            </div>
+            <div class="form-group">
+                <label for="priceInput">Cena</label>
+                <input type="number" class="form-control" id="priceInput" placeholder="123,99" min="0.00" max="10000.00" step="0.01" name="price">
+            </div>
+            <div class="form-group">
+                <label for="descriptionInput">Opis</label>
+                <textarea class="form-control" id="descriptionInput" placeholder="Szczegółowy opis ogłoszenia" rows="10" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="categorySelect">Kategoria</label>
+                <select class="form-control" id="categorySelect" name="category">
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="add-button">Dodaj</button>
+            <div id="err-message" style="display:none">Błąd komunikacji z serwerem</div>
+        </form>
+    </div>
+
+</body>
+</html>

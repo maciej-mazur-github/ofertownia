@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Błąd rejestracji</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div layout:fragment="custom-jumbotron" th:replace="~{fragments :: general-jumbotron}">
+</div>
+
+<div class="container container-main login-form" layout:fragment="main-container">
+    <div class="text-center">
+        <div class="mb-4">
+            <i class="fa-regular fa-thumbs-down fa-5x mb-4"></i>
+            <h4 class="text-center mb-4"
+                th:text="|Rejestracja konta nie powiodła się. Konto o adresie ${userEmail} już istnieje|"></h4>
+        </div>
+        <p>
+            <a href="#" th:href="@{/zaloguj}">Powrót do strony logowania</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

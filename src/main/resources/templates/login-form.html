@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Zaloguj się</title>
+</head>
+<body>
+
+<div layout:fragment="custom-jumbotron" th:replace="~{fragments :: general-jumbotron}">
+</div>
+
+<div class="container container-main login-form" layout:fragment="main-container">
+    <h1 class="text-white bg-info bg-gradient p-4 rounded mb-3" th:if="${error}">Błąd logowania</h1>
+    <h2>Zaloguj się</h2>
+    <form action="#" th:action="@{/zaloguj}" method="post">
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email / nazwa użytkownika</label>
+            <input type="email"
+                   class="form-control"
+                   id="exampleFormControlInput1"
+                   placeholder="imie@mail.com"
+                   name="username">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput2" class="form-label">Hasło</label>
+            <input type="password" class="form-control" id="exampleFormControlInput2" name="password">
+        </div>
+        <button class="btn btn-primary mb-3" type="submit">Zaloguj</button>
+    </form>
+    <p>
+        <a href="#" th:href="@{/reset-hasla}">Zapomniałeś hasła?</a>
+    </p>
+    <p>
+        <a href="#" th:href="@{/rejestracja}">Zarejestruj nowe konto</a>
+    </p>
+</div>
+
+</body>
+</html>
