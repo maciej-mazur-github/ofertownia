@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Prognoza pogody</title>
+</head>
+<body>
+<div class="jumbotron home-jumbo"
+     th:style="|background-image:url(@{/img/jumbo-back.jpg})|"
+     layout:fragment="custom-jumbotron">
+    <div class="container text-center text-white">
+        <h1 class="display-3">Ofertownia</h1>
+        <p>Prognoza pogody</p>
+    </div>
+</div>
+
+<div class="container container-main"
+     layout:fragment="main-container">
+    <form class="col-6 mx-auto mb-5" id="add-form" method="get">
+        <div class="form-group">
+            <label for="titleInput">Nazwa polskiego miasta / miejscowości</label>
+            <input type="text" class="form-control" id="titleInput" placeholder="Nazwa miasta" name="miasto" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3" id="add-button">Wyświetl prognozę</button>
+        <div th:class="error-message"
+             style="display:none"
+             th:style="${(cityNotFoundException == null) ? 'display:none' : 'display:block'}"
+             th:text="${(cityNotFoundException == null) ? '' : cityNotFoundException.message}">
+        </div>
+        <div th:class="error-message"
+             style="display:none"
+             th:style="${(serverConnectionException == null) ? 'display:none' : 'display:block'}"
+             th:text="${(serverConnectionException == null) ? '' : serverConnectionException.message}">
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

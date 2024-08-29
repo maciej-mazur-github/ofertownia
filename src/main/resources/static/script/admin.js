@@ -5,7 +5,6 @@ const switchAction = () => {
             let apiUrl = getApiUrl(inputId);
             let inputSwitch = $(this);
             let grantAdminRights = $(this).is(':checked');
-            // let token = $('meta[name="_csrf"]').attr('content');
             let csrfTokenCookie = getCookie('XSRF-TOKEN');
             $.ajax({
                 url: apiUrl,
@@ -44,12 +43,11 @@ const getApiUrl = (inputId) => {
 }
 
 const deleteBtnAction = () => {
-    $('.btn-sm').each(function () {
+    $('.actual-delete-btn').each(function () {
         $(this).click(function (e) {
-            e.preventDefault();
+            // e.preventDefault();
             const btn = $(this);
             const deleteUrl = btn.val();
-            // let token = $('meta[name="_csrf"]').attr('content');
             let csrfTokenCookie = getCookie('XSRF-TOKEN');
             $.ajax({
                 type: 'POST',

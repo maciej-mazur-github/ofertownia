@@ -31,6 +31,7 @@ import java.io.IOException;
 
 @Configuration
 public class SecurityConfig {
+
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
@@ -39,6 +40,7 @@ public class SecurityConfig {
     @Configuration
     @Order(1)
     public static class WebsiteConfigurationAdapter {
+
         @Bean
         public SecurityFilterChain websiteFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
             PathRequest.H2ConsoleRequestMatcher h2ConsoleRequestMatcher = PathRequest.toH2Console();
@@ -85,9 +87,7 @@ public class SecurityConfig {
             http.csrf(csrf -> csrf
                     .ignoringRequestMatchers(h2ConsoleRequestMatcher)
             );
-            http
-                    // ...
-                    .csrf((csrf) -> csrf
+            http.csrf((csrf) -> csrf
                             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                             .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
                     )

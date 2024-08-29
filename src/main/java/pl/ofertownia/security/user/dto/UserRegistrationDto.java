@@ -16,7 +16,7 @@ public class UserRegistrationDto {
     @NotBlank
     private String address;
     @NotBlank
-    @PostalCode  // adnotacja własna
+    @PostalCode
     private String postalCode;
     @NotBlank
     private String city;

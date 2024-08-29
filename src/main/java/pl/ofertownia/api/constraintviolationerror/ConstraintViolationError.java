@@ -1,19 +1,11 @@
 package pl.ofertownia.api.constraintviolationerror;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class ConstraintViolationError {
     private final String field;
     private final String message;
-
-    public ConstraintViolationError(String field, String message) {
-        this.field = field;
-        this.message = message;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

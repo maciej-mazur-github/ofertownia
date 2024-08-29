@@ -6,7 +6,7 @@ public class UserEditingDto {
     private String firstName;
     private String lastName;
     private String email;
-    private String roles; // ma posłużyć wyłącznie do wydruku na stronie edycji w jednej linii, bez możliwości edycji
+    private String roles;
 
     public String getOldPassword() {
         return oldPassword;

@@ -1,6 +1,7 @@
 body {
     min-height: 300px;
     padding-top: 60px;
+    padding-bottom: 60px;
 }
 
 .home-jumbo {
@@ -41,6 +42,13 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-#err-message {
+#err-message,
+.error-message {
     color : red;
+}
+
+.custom-btn {
+    background-color: #4d94ff !important;
+    outline-color: #4d94ff !important;
+    color: #fff !important;
 }

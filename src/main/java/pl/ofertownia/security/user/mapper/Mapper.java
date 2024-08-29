@@ -69,7 +69,7 @@ public class Mapper {
         userEditingDto.setFirstName(user.getFirstName());
         userEditingDto.setLastName(user.getLastName());
         userEditingDto.setEmail(user.getEmail());
-        userEditingDto.setOldPassword(""); // hasło na tym etapie nie będzie potrzebne kontrolerowi ani szablonowi
+        userEditingDto.setOldPassword("");
         userEditingDto.setNewPassword("");
         userEditingDto.setRoles(rolesString);
         return userEditingDto;

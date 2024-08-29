@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Prognoza pogody</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js" integrity="sha256-J8ay84czFazJ9wcTuSDLpPmwpMXOm573OUtZHPQqpEU=" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        let longTermForecastSize = [[${forecastFor5Days.size}]];
+    </script>
+    <script th:src="@{/script/weather.js}"></script>
+    <style>
+        .parent{max-width: 90%; border:2px solid grey; border-radius: 20px; overflow:hidden; margin: auto; padding-top: 10px}
+        .child-container{position:relative;}
+        .child{ float:left; font-size:15px; font-family:arial; padding:10px 5px 10px 0;}
+        .clear {clear:both;}
+    </style>
+</head>
+<body>
+<div class="jumbotron home-jumbo"
+     th:style="|background-image:url(@{/img/jumbo-back.jpg})|"
+     layout:fragment="custom-jumbotron">
+    <div class="container text-center text-white">
+        <h1 class="display-3">Ofertownia</h1>
+        <p>Prognoza pogody</p>
+    </div>
+</div>
+
+<div class="container container-main text-center"
+     layout:fragment="main-container">
+
+    <div class="row d-flex justify-content-center mb-4">
+        <div class="col-4 text-center">
+            Aktualne warunki pogodowe dla:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm text-sm-center">
+            <div class="row text-center">
+                <div class="col h2" th:text="${currentWeatherViewDto.name}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-sm text-sm-center">
+            <div class="row text-center">
+                <div class="col">
+                    Data odczytu:
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col"
+                     th:text="|${currentWeatherViewDto.dayOfWeek.translation} ${#temporals.format(currentWeatherViewDto.dt, 'dd-MM-yyyy HH:mm')}|">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row w-75 mx-auto">
+        <div class="col-4">
+            <div class="row">
+                <div class="col mb-3">
+                    <span th:text="|${currentWeatherViewDto.main.temp}&deg;|" class="h1"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span th:text="|Maks: ${currentWeatherViewDto.main.temp_max}&deg;|"></span>
+                </div>
+                <div class="col">
+                    <span th:text="|Min: ${currentWeatherViewDto.main.temp_min}&deg;|"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-4">
+            <img th:src="${currentWeatherViewDto.weather.iconUrl}"
+                 alt="" style="position: relative; top: -30px">
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col mb-4">
+                    <span th:text="${currentWeatherViewDto.weather.description}" class="h4"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span th:text="|Odczuwalna: ${currentWeatherViewDto.main.feels_like}&deg;|"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="parent" class="text-nowrap mb-4 mt-4 parent">
+        <div id="child-container" class="text-nowrap child-container">
+            <div id="child" class="text-nowrap child">
+                <div class="d-flex justify-content-center text-nowrap">
+                    <div style="display: inline"
+                         th:each="forecast: ${forecastForCurrent24h}" class="col">
+                        <div>
+                            <span th:text="|${forecast.temp()}&deg;|"></span>
+                        </div>
+                        <div>
+                            <img th:src="${forecast.iconUrl()}"
+                                 alt="" style="position: relative; top: -15px">
+                        </div>
+                        <div>
+                            <span th:text="${#temporals.format(forecast.time(), 'HH:mm')}"
+                                  style="position:relative; top: -15px"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <p class="text-start fw-bold mt-5">Prognoza na nadchodzące 4 doby:</p>
+    <div class="accordion" id="accordionPanelsStayOpenExample mb-4">
+        <div class="accordion-item"
+             th:each="forecastEntry, iStat: ${forecastFor5Days}">
+            <h2 class="accordion-header"
+                th:id="|panelsStayOpen-heading-${iStat.index}|">
+                <button class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        aria-expanded="true"
+                        th:attr="aria-controls= |panelsStayOpen-collapse-${iStat.index}|,
+                            data-bs-target= '#panelsStayOpen-collapse-' + ${iStat.index}"
+                        th:text="${forecastEntry.getKey()}">
+                    Accordion Item #1
+                </button>
+            </h2>
+
+            <div id="panelsStayOpen-collapseOne"
+                 th:id="|panelsStayOpen-collapse-${iStat.index}|"
+                 class="accordion-collapse collapse"
+                 th:attr="aria-labelledby='panelsStayOpen-heading-' + ${iStat.index}">
+                <div class="accordion-body">
+                    <div id="parent2" th:id="|parent-${iStat.index}|" class="text-nowrap mb-4 mt-4 parent">
+                        <div id="child-container2" th:id="|child-container-${iStat.index}|" class="text-nowrap child-container">
+                            <div id="child2" th:id="|child-${iStat.index}|" class="text-nowrap child ">
+                                <div class="d-flex justify-content-center text-nowrap mx-auto">
+                                    <div style="display: inline"
+                                         th:each="forecast: ${forecastEntry.getValue()}" class="col">
+                                        <div>
+                                            <span th:text="|${forecast.temp()}&deg;|"></span>
+                                        </div>
+                                        <div>
+                                            <img th:src="${forecast.iconUrl()}"
+                                                 alt="" style="position: relative; top: -15px">
+                                        </div>
+                                        <div>
+                                        <span th:text="${#temporals.format(forecast.time(), 'HH:mm')}"
+                                              style="position:relative; top: -15px"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <button class="btn btn-info mt-5 btn-block custom-btn"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample">
+        Dodatkowe informacje
+    </button>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Dodatkowe informacje</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="bg-warning-subtle text-warning-emphasis rounded-4 mb-4 py-2">
+                <div class="row mb-2">
+                    <div class="col">
+                        <span>Wschód słońca</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="${#temporals.format(currentWeatherViewDto.sys.sunrise, 'HH:mm')}"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span>Zachód słońca</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="${#temporals.format(currentWeatherViewDto.sys.sunset, 'HH:mm')}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-primary-subtle text-primary-emphasis rounded-4 py-2">
+                <div class="row mb-2">
+                    <div class="col">
+                        <span>Wiatr</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="|${currentWeatherViewDto.wind.speed} km/h|"></span>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <span>Ciśnienie</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="|${currentWeatherViewDto.main.pressure} hPa|"></span>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <span>Wilgotność</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="|${currentWeatherViewDto.main.humidity}%|"></span>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <span>Widzialność</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="|${currentWeatherViewDto.visibility} km|"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
