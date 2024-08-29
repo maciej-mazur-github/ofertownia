@@ -1,7 +1,11 @@
 package pl.ofertownia.api.category;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import pl.ofertownia.api.constraintviolationerror.ConstraintViolationError;
 import pl.ofertownia.utils.UriBuilder;
 
 import java.util.List;
@@ -26,7 +30,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    ResponseEntity<CategoryDetailsDto> saveCategory(@RequestBody CategoryToSaveDto categoryToSaveDto) {
+    ResponseEntity<CategoryDetailsDto> saveCategory(@Valid @RequestBody CategoryToSaveDto categoryToSaveDto) {
         CategoryDetailsDto savedCategory = categoryService.saveCategory(categoryToSaveDto);
         return ResponseEntity.created(UriBuilder.getUri(savedCategory.getId())).body(savedCategory);
     }
@@ -35,5 +39,14 @@ public class CategoryController {
     ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    List<ConstraintViolationError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        return ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(fieldError -> new ConstraintViolationError(fieldError.getField(), fieldError.getDefaultMessage()))
+                .toList();
     }
 }

@@ -15,6 +15,15 @@
             <column name="last_name" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
+            <column name="address" type="VARCHAR(400)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="VARCHAR(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
             <column name="email" type="VARCHAR(300)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -22,6 +31,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="password_reset_code" type="VARCHAR(500)"/>
+            <column name="terms_agreement" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet id="0002_create_table_user_role" author="Maciek">

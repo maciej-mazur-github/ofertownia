@@ -1,7 +1,11 @@
 package pl.ofertownia.api.category;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CategoryToSaveDto {
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
 
     public String getName() {

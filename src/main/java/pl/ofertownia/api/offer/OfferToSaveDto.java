@@ -1,12 +1,19 @@
 package pl.ofertownia.api.offer;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
 import java.math.BigDecimal;
 
 public class OfferToSaveDto {
+    @NotBlank
     private String title;
+    @NotBlank
     private String description;
     private String imgUrl;
+    @Positive
     private BigDecimal price;
+    @NotBlank
     private String category;
 
     public String getTitle() {

@@ -16,7 +16,7 @@ public class UserController {
 
     @PostMapping("/credentials/{id}")
     ResponseEntity<UserDetailsDto> changeCredentials(@RequestBody Boolean grantAdminRights,
-                                                     @PathVariable Long id) {
+                                              @PathVariable Long id) {
         UserDetailsDto userDetailsDto = userService.changeCredentials(id, grantAdminRights);
         return ResponseEntity.ok(userDetailsDto);
     }

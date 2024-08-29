@@ -4,7 +4,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
+    <meta th:unless="${#strings.isEmpty(existingEmailFromDb)}"
+          name="existing-email-from-db"
+          th:content="${existingEmailFromDb}">
     <title>Zarejestruj konto</title>
+    <script th:src="@{/script/registration.js}"></script>
 </head>
 <body>
 
@@ -12,36 +16,164 @@
 </div>
 
 <div class="container container-main login-form" layout:fragment="main-container">
-    <h2>Zarejestruj się</h2>
-    <form action="#" th:action="@{/rejestracja}" method="post" th:object="${userRegistrationDto}">
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Email / nazwa użytkownika</label>
-            <input type="email"
-                   class="form-control"
-                   id="exampleFormControlInput1"
-                   placeholder="imie@mail.com"
-                   th:field="*{email}">
+    <h2>Formularz rejestracyjny</h2>
+
+    <form class="g-3 needs-validation mb-3"
+          action="#"
+          th:object="${userRegistrationDto}"
+          novalidate
+          th:action="@{/rejestracja}"
+          method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="validationCustom01" class="form-label">Imię</label>
+                <input type="text" class="form-control"
+                       id="validationCustom01"
+                       required
+                       th:field="*{firstName}">
+                <div class="valid-feedback">
+                    Prawidłowe imię
+                </div>
+                <div class="invalid-feedback">
+                    Pole nie może być puste
+                </div>
+                <div th:errors="*{firstName}"
+                     class="custom-error mb-3">
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom02" class="form-label">Nazwisko</label>
+                <input type="text" class="form-control"
+                       id="validationCustom02"
+                       required
+                       th:field="*{lastName}">
+                <div class="valid-feedback">
+                    Prawidłowe nazwisko
+                </div>
+                <div class="invalid-feedback">
+                    Nazwisko powinno zawierać co najmniej 3 litery
+                </div>
+                <div th:errors="*{lastName}"
+                     class="custom-error mb-3">
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput2" class="form-label">Hasło</label>
-            <input type="password" class="form-control" id="exampleFormControlInput2" th:field="*{password}">
+        <div class="row mt-3">
+            <div class="col-md">
+                <label for="validationCustom03" class="form-label">Ulica, numer domu i mieszkania</label>
+                <input type="text" class="form-control" id="validationCustom03" required
+                       th:field="*{address}">
+                <div class="valid-feedback">
+                    Prawidłowy adres
+                </div>
+                <div class="invalid-feedback">
+                    Pole nie może być puste
+                </div>
+                <div th:errors="*{address}"
+                     class="custom-error mb-3">
+                </div>
+
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput3" class="form-label">Imię</label>
-            <input type="text" class="form-control" id="exampleFormControlInput3" th:field="*{firstName}">
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <label for="validationCustom06" class="form-label">Kod pocztowy</label>
+                <input type="text" class="form-control" id="validationCustom06" required
+                       th:field="*{postalCode}">
+                <div class="valid-feedback">
+                    Prawidłowy kod pocztowy
+                </div>
+                <div class="invalid-feedback">
+                    Pole nie może być puste
+                </div>
+                <div th:errors="*{postalCode}"
+                     class="custom-error mb-3">
+                </div>
+            </div>
+            <div class="col-md-10">
+                <label for="validationCustom07" class="form-label">Miasto</label>
+                <input type="text" class="form-control" id="validationCustom07" required
+                       th:field="*{city}">
+                <div class="valid-feedback">
+                    Prawidłowa nazwa miasta
+                </div>
+                <div class="invalid-feedback">
+                    Pole nie może być puste
+                </div>
+                <div th:errors="*{city}"
+                     class="custom-error mb-3">
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput4" class="form-label">Nazwisko</label>
-            <input type="text" class="form-control" id="exampleFormControlInput4" th:field="*{lastName}">
+        <div class="row mt-3">
+            <div class="col-md">
+                <label for="validationCustom08" class="form-label">Adres email</label>
+                <input type="email" class="form-control" id="validationCustom08"
+                       th:field="*{email}">
+                <span>Nikomu nie udostępniamy Twojego adresu email</span>
+                <div class="valid-feedback">
+                    Prawidłowy adres email
+                </div>
+                <div class="invalid-feedback">
+                    Pole nie może być puste
+                </div>
+                <div th:if="${!#strings.isEmpty(existingEmailFromDb)}" class="invalid-feedback" id="email-exists">
+                </div>
+                <div th:errors="*{email}"
+                     class="custom-error mb-3">
+                </div>
+            </div>
         </div>
-        <button class="btn btn-primary mb-3" type="submit">Zarejestruj się</button>
+        <div class="row mt-3">
+            <div class="col-md">
+                <label for="validationCustom09" class="form-label">Hasło</label>
+                <input type="password" class="form-control" id="validationCustom09" th:field="*{password}">
+                <div class="valid-feedback">
+                    Prawidłowe hasło
+                </div>
+                <div class="invalid-feedback">
+                    Pole nie może być puste
+                </div>
+                <div th:errors="*{password}"
+                     class="custom-error mb-3">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required
+                           th:field="*{termsAgreement}">
+                    <label class="form-check-label" for="invalidCheck">
+                        Zgadzam się na warunki przedstawione w
+                        <a href="#" th:href="@{/rejestracja/regulamin}" target="_blank">regulaminie</a>
+                    </label>
+                    <div class="invalid-feedback">
+                        Akceptacja regulaminu jest wymagana
+                    </div>
+                    <div th:errors="*{termsAgreement}"
+                         class="custom-error mb-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Rejestruj</button>
+            </div>
+        </div>
+
     </form>
-    <p>
-        <a href="#" th:href="@{/reset-hasla}">Zapomniałeś hasła?</a>
-    </p>
-    <p>
-        <a href="#" th:href="@{/}">Powrót do strony głównej</a>
-    </p>
+
+    <div class="mt-4 mb-5">
+        <p>
+            <a href="#" th:href="@{/reset-hasla}">Zapomniałeś hasła?</a>
+        </p>
+        <p>
+            <a href="#" th:href="@{/}">Powrót do strony głównej</a>
+        </p>
+    </div>
 </div>
 
 </body>

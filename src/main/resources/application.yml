@@ -13,3 +13,5 @@ spring:
 logging:
   level:
     org.springframework.security.web: DEBUG
+jws:
+  sharedKey: b55cd585-10cd-48d2-9dfa-cddc7f83f060

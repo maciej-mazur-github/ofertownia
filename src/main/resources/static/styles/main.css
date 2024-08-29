@@ -8,7 +8,12 @@ body {
 }
 
 .login-form {
-    max-width: 600px;
+    max-width: 1000px;
+}
+
+.custom-error {
+    color: red;
+    font-size: 0.8rem;
 }
 
 .bg-info {

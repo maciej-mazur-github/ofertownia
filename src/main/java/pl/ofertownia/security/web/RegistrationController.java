@@ -1,7 +1,9 @@
 package pl.ofertownia.security.web;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,16 +21,38 @@ public class RegistrationController {
         this.userService = userService;
     }
 
+    @ModelAttribute("userRegistrationDto")
+    public UserRegistrationDto newUserDto() {
+        return new UserRegistrationDto();
+    }
+
+    @ModelAttribute("existingEmailFromDb")
+    public String existingEmailFromDb() {
+        return new String("");
+    }
+
     @GetMapping
-    String registerPage(Model model) {
-        UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
-        model.addAttribute("userRegistrationDto", userRegistrationDto);
+    String registerPage() {
         return "registration-form";
     }
 
     @PostMapping
-    String register(UserRegistrationDto userRegistrationDto,
+    String register(@Valid @ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,
+                    BindingResult bindingResult,
                     RedirectAttributes attributes) {
+
+        String userEmail = userRegistrationDto.getEmail();
+        boolean emailExists = userService.checkIfExistsByEmail(userEmail);
+        if (bindingResult.hasErrors() || emailExists) {
+            attributes.addFlashAttribute("userRegistrationDto", userRegistrationDto);
+            attributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDto",
+                    bindingResult);
+            if (emailExists) {
+                attributes.addFlashAttribute("existingEmailFromDb", userEmail);
+            }
+            return "redirect:/rejestracja";
+        }
+
         if (userService.register(userRegistrationDto)) {
             return "redirect:/rejestracja/potwierdzenie";
         } else {
@@ -47,5 +71,10 @@ public class RegistrationController {
                               Model model) {
         model.addAttribute("userEmail", userEmail);
         return "registration-failed";
+    }
+
+    @GetMapping("/regulamin")
+    String registrationTerms() {
+        return "registration-terms";
     }
 }

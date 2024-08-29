@@ -25,13 +25,17 @@ public class Mapper {
         this.userRoleRepository = userRoleRepository;
     }
 
-    public User userRegistrationDtoToUser(UserRegistrationDto userRegistrationDto) {
+    public User userRegistrationDtoToUser(UserRegistrationDto dto) {
         User user = new User();
-        user.setEmail(userRegistrationDto.getEmail());
-        String encodedPassword = passwordEncoder.encode(userRegistrationDto.getPassword());
+        user.setEmail(dto.getEmail());
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
-        user.setFirstName(userRegistrationDto.getFirstName());
-        user.setLastName(userRegistrationDto.getLastName());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setAddress(dto.getAddress());
+        user.setCity(dto.getCity());
+        user.setPostalCode(dto.getPostalCode());
+        user.setTermsAgreement(dto.getTermsAgreement());
         userRoleRepository.findByName(RoleEnum.USER)
                 .ifPresentOrElse(
                         role -> user.getRoles().add(role),

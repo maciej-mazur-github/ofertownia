@@ -1,5 +1,8 @@
 package pl.ofertownia.security.user;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,8 +14,10 @@ import pl.ofertownia.security.user.dto.UserDetailsDto;
 import pl.ofertownia.security.user.dto.UserEditingDto;
 import pl.ofertownia.security.user.dto.UserRegistrationDto;
 import pl.ofertownia.security.user.mapper.Mapper;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,11 +33,7 @@ public class UserService {
     private final JavaMailSenderImpl mailSender;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository,
-                       UserRoleRepository userRoleRepository,
-                       Mapper mapper,
-                       JavaMailSenderImpl mailSender,
-                       PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, Mapper mapper, JavaMailSenderImpl mailSender, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.mapper = mapper;
@@ -109,12 +110,22 @@ public class UserService {
     }
 
     public boolean register(UserRegistrationDto userRegistrationDto) {
-        if (userRepository.existsUserByEmail(userRegistrationDto.getEmail())) {
-            return false;
+        try {
+            User user = mapper.userRegistrationDtoToUser(userRegistrationDto);
+            userRepository.save(user);
+            return true;
+        } catch (ConstraintViolationException cve) {
+            Set<ConstraintViolation<?>> errors = cve.getConstraintViolations();
+            System.out.println("Rejestracja nie powiodła się");
+            errors.stream()
+                    .map(err -> err.getPropertyPath() + " " + err.getInvalidValue() + " " + err.getMessage())
+                    .forEach(System.out::println);
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("Rejestracja nie powiodła się");
+            System.out.printf("Użytkownik o adresie %s już istnieje w bazie.", userRegistrationDto.getEmail());
         }
-        User user = mapper.userRegistrationDtoToUser(userRegistrationDto);
-        userRepository.save(user);
-        return true;
+
+        return false;
     }
 
     public Optional<UserEditingDto> findEditingDetailsByEmail(String username) {
@@ -171,5 +182,9 @@ public class UserService {
 
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public boolean checkIfExistsByEmail(String userEmail) {
+        return userRepository.existsUserByEmail(userEmail);
     }
 }

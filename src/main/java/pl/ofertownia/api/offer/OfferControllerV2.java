@@ -11,11 +11,11 @@ import pl.ofertownia.utils.UriBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/offers")
-public class OfferController {
+@RequestMapping("/api/v2/offers")
+public class OfferControllerV2 {
     private final OfferService offerService;
 
-    public OfferController(OfferService offerService) {
+    public OfferControllerV2(OfferService offerService) {
         this.offerService = offerService;
     }
 

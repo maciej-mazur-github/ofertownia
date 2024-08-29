@@ -1,6 +1,9 @@
 package pl.ofertownia.api.offer;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import pl.ofertownia.api.category.Category;
 
 import java.math.BigDecimal;
@@ -10,10 +13,14 @@ public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Pole nie może być puste")
     private String title;
+    @NotBlank(message = "Pole nie może być puste")
     private String description;
     private String imgUrl;
     @Column(precision = 10, scale = 2)
+    @NotNull(message = "Pole nie może być puste")
+    @Positive
     private BigDecimal price;
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")

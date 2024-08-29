@@ -1,6 +1,7 @@
 package pl.ofertownia.api.category;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import pl.ofertownia.api.offer.Offer;
 
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Pole nie może być puste")
     private String name;
+    @NotBlank(message = "Pole nie może być puste")
     private String description;
     @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Offer> offers = new ArrayList<>();

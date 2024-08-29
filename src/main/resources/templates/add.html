@@ -21,7 +21,7 @@
         <form class="col-6 mx-auto mb-5" id="add-form">
             <div class="form-group">
                 <label for="titleInput">Tytuł</label>
-                <input type="text" class="form-control" id="titleInput" placeholder="Przykładowy tytuł" name="title">
+                <input type="text" class="form-control" id="titleInput" placeholder="Przykładowy tytuł" name="title" required>
             </div>
             <div class="form-group">
                 <label for="imgUrlInput">Url obrazka</label>
@@ -29,15 +29,28 @@
             </div>
             <div class="form-group">
                 <label for="priceInput">Cena</label>
-                <input type="number" class="form-control" id="priceInput" placeholder="123,99" min="0.00" max="10000.00" step="0.01" name="price">
+                <input type="number"
+                       class="form-control"
+                       id="priceInput"
+                       placeholder="123,99"
+                       min="0.01"
+                       max="10000.00"
+                       step="0.01"
+                       name="price"
+                       required>
             </div>
             <div class="form-group">
                 <label for="descriptionInput">Opis</label>
-                <textarea class="form-control" id="descriptionInput" placeholder="Szczegółowy opis ogłoszenia" rows="10" name="description"></textarea>
+                <textarea class="form-control"
+                          id="descriptionInput"
+                          placeholder="Szczegółowy opis ogłoszenia"
+                          rows="10"
+                          name="description"
+                          required></textarea>
             </div>
             <div class="form-group">
                 <label for="categorySelect">Kategoria</label>
-                <select class="form-control" id="categorySelect" name="category">
+                <select class="form-control" id="categorySelect" name="category" required>
                 </select>
             </div>
 
