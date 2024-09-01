@@ -34,11 +34,11 @@ const Loader = () => `
 `;
 
 const Error = () => `
-    <div class="row mt-2">
-        <h2 class="mx-auto">Błąd komunikacji z serwerem</h2>
+    <div class="row mt-2 text-center">
+        <h2 class="mx-auto text-center">Błąd komunikacji z serwerem</h2>
     </div>
-    <div class="row mt-2">
-        <i class="far fa-frown fa-10x mx-auto"></i>
+    <div class="row mt-2 text-center">
+        <i class="far fa-frown fa-10x mx-auto text-center"></i>
     </div>
 `;
 
@@ -53,6 +53,10 @@ const OfferNotFound = () => `
 
 const Offer = (offer) => {
     let pathToImage = $('meta[name="pathToImage"]').attr('content');
+    let offerImage = (offer.imgUrl == null || offer.imgUrl.length === 0) ?
+        "/img/empty-photo.svg"
+        :
+        offer.imgUrl;
     return `
         <div class="jumbotron home-jumbo" style="background-image: url(${pathToImage})">
             <div class="container text-center text-white jumbo-container">
@@ -61,7 +65,7 @@ const Offer = (offer) => {
         </div>
         <div class="row mt-2">
             <div class="col-md-4">
-                <img class="img-fluid mx-auto d-block" src="${offer.imgUrl}">
+                <img class="img-fluid mx-auto d-block" src="${offerImage}" alt="Fotografia oferty"/>
             </div>
             <div class="col-md-8">
                 <h5>${offer.price}zł</h5>
@@ -83,16 +87,16 @@ const Success = () => `
 const renderOfferList = (url) => {
     const offerList = $('.container-main');
     offerList.html(Loader());
-    url = 'http://localhost:8080' + url;
+    url = `${generalApplicationPath}` + url;
     $.ajax({
         url: url
-    }).then(function(data) {
+    }).then(function (data) {
         if (data && data.length > 0) {
             offerList.html(data.map(Item).join(''));
         } else {
             offerList.html(Empty());
         }
-    }).fail(function(err) {
+    }).fail(function (err) {
         offerList.html(Error());
     });
 };
@@ -102,13 +106,13 @@ const renderCategoryList = (url) => {
     offerList.html(Loader());
     $.ajax({
         url: url
-    }).then(function(data) {
+    }).then(function (data) {
         if (data && data.length > 0) {
             offerList.html(data.map(CategoryItem).join(''));
         } else {
             offerList.html(Empty());
         }
-    }).fail(function(err) {
+    }).fail(function (err) {
         offerList.html(Error());
     });
 };
@@ -118,10 +122,10 @@ const renderSingleOffer = () => {
     const mainContainer = $('.container-main');
     $.ajax({
         url: `/api/offers/${idParam}`
-    }).then(function(data) {
+    }).then(function (data) {
         console.log(data);
         mainContainer.html(Offer(data));
-    }).fail(function(err) {
+    }).fail(function (err) {
         mainContainer.html(OfferNotFound());
     });
 };
@@ -130,7 +134,7 @@ const renderOfferCount = () => {
     const jumboContainer = $('.jumbo-container');
     $.ajax({
         url: '/api/offers/count'
-    }).then(function(offers) {
+    }).then(function (offers) {
         if (offers > 0) {
             jumboContainer.append($("<p></p>")
                 .text(`Liczba ogłoszeń: ${offers}`));
@@ -142,7 +146,7 @@ const renderOfferCount = () => {
 };
 
 const registerSearchForm = () => {
-    $('#search-form').submit(function(e) {
+    $('#search-form').submit(function (e) {
         e.preventDefault();
         const searchText = $('#search-input').val();
         renderOfferList(`/api/offers?title=${searchText}`);
@@ -150,11 +154,11 @@ const registerSearchForm = () => {
 };
 
 const registerAddForm = () => {
-    $('#add-form').submit(function(e) {
+    $('#add-form').submit(function (e) {
         const form = this;
         e.preventDefault();
         const formData = {};
-        $.each(this, function(i, v){
+        $.each(this, function (i, v) {
             const input = $(v);
             formData[input.attr("name")] = input.val();
         });
@@ -162,11 +166,11 @@ const registerAddForm = () => {
         $.ajax({
             type: 'post',
             url: '/api/offers',
-            contentType : 'application/json; charset=utf-8',
+            contentType: 'application/json; charset=utf-8',
             // 'Content-Type': 'x-www-form-urlencoded',
-            data : JSON.stringify(formData),
+            data: JSON.stringify(formData),
             headers: {
-                'X-XSRF-TOKEN' : csrfToken
+                'X-XSRF-TOKEN': csrfToken
             }
         }).then(() => {
             console.log('success');
@@ -200,8 +204,8 @@ const fillCategoriesInAddForm = () => {
         $.each(data, (k, v) => {
             $('#categorySelect').append(
                 $("<option></option>")
-                .attr("value",v)
-                .text(v));
+                    .attr("value", v)
+                    .text(v));
         });
     }).fail(() => {
         $('#add-button').prop('disabled', 'true');
@@ -224,20 +228,20 @@ const getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     const location = window.location.pathname;
-    if(location === '/') {
+    if (location === '/') {
         renderOfferList('/api/offers');
         renderOfferCount();
-    } else if(location === '/szukaj') {
+    } else if (location === '/szukaj') {
         renderOfferList('/api/offers');
         registerSearchForm();
-    } else if(location === '/dodaj-oferte') {
+    } else if (location === '/dodaj-oferte') {
         fillCategoriesInAddForm();
         registerAddForm();
-    } else if(location === '/kategorie') {
-        renderCategoryList('api/categories');
-    } else if(location === '/oferta') {
+    } else if (location === '/kategorie') {
+        renderCategoryList('/api/categories');
+    } else if (location === '/oferta') {
         renderSingleOffer();
     }
 });

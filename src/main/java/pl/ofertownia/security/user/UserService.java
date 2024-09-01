@@ -5,11 +5,11 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.ofertownia.mail.MailProperties;
 import pl.ofertownia.security.user.dto.UserCredentialsDto;
 import pl.ofertownia.security.user.dto.UserDetailsDto;
 import pl.ofertownia.security.user.dto.UserEditingDto;
@@ -24,11 +24,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    private static final String SERVER_EMAIL = "maciek@spring.security.com";
+//    private static final String SERVER_EMAIL = "maciek@spring.security.com";
     private static final String RESET_EMAIL_SUBJECT = "Reset hasła konta";
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
+    private final MailProperties mailProperties;
 
     private final Mapper mapper;
 //    private final JavaMailSenderImpl mailSender;
@@ -36,12 +37,13 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository,
-                       UserRoleRepository userRoleRepository,
+                       UserRoleRepository userRoleRepository, MailProperties mailProperties,
                        Mapper mapper,
                        JavaMailSender mailSender,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.mailProperties = mailProperties;
         this.mapper = mapper;
         this.mailSender = mailSender;
         this.passwordEncoder = passwordEncoder;
@@ -64,7 +66,7 @@ public class UserService {
     private void sendEmail(User user) {
         String userEmail = user.getEmail();
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(SERVER_EMAIL);
+        simpleMailMessage.setFrom(mailProperties.getFrom());
         simpleMailMessage.setTo(userEmail);
 
         String resetCode = UUID.randomUUID().toString();

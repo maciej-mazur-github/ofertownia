@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 class WeatherService {
+
     private static final String CURRENT_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q={cityName},pl&units=metric&lang=pl&appid={apiKey}";
     private static final String FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast?q={cityName},pl&appid={apiKey}&lang=pl&units=metric";
 
@@ -27,6 +28,7 @@ class WeatherService {
 
     @Value("${openWeather.apiKey}")
     private String apiKey;
+
     private RestTemplate restTemplate = new RestTemplate();
 
     WeatherService(WeatherForecastDtoMapper mapper) {

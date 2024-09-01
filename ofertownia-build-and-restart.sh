@@ -1,0 +1,4 @@
+docker build . -t ofertownia --build-arg API_KEY=$API_KEY --build-arg SHARED_KEY=$SHARED_KEY --build-arg DB_DRIVER=$DB_DRIVER --build-arg DB_PASS=$DB_PASS --build-arg DB_URL=$DB_URL --build-arg DB_USERNAME=$DB_USERNAME --build-arg MAIL_HOST=$MAIL_HOST --build-arg MAIL_PASS=$MAIL_PASS --build-arg MAIL_PORT=$MAIL_PORT --build-arg MAIL_USERNAME=$MAIL_USERNAME
+docker stop ofertownia || true
+docker rm ofertownia || true
+docker run -d -p 8080:8080 --name=ofertownia -e SPRING_PROFILES_ACTIVE=docker-dev -e API_KEY=$API_KEY -e SHARED_KEY=$SHARED_KEY -e DB_DRIVER=$DB_DRIVER -e DB_PASS=$DB_PASS -e DB_URL=$DB_URL -e DB_USERNAME=$DB_USERNAME -e MAIL_HOST=$MAIL_HOST -e MAIL_PASS=$MAIL_PASS -e MAIL_PORT=$MAIL_PORT -e MAIL_USERNAME=$MAIL_USERNAME --network ofertownia-network --restart unless-stopped ofertownia

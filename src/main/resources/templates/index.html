@@ -7,17 +7,17 @@
     <meta charset="UTF-8">
     <script th:inline="javascript">
         let pathToOffer = [[${pathToOffer}]];
+        let generalApplicationPath = [[${generalApplicationPath}]];
     </script>
 </head>
 <body>
 
 <div layout:fragment="custom-jumbotron" th:replace="~{fragments :: general-jumbotron}">
 </div>
-
     <div class="container container-main"
          layout:fragment="main-container">
         <div class="row">
-            <div class="loader mx-auto">
+            <div class="loader spinner-border mx-auto" role="status">
             </div>
         </div>
     </div>

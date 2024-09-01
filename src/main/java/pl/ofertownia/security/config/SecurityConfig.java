@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -22,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
@@ -44,6 +46,11 @@ public class SecurityConfig {
         @Bean
         public SecurityFilterChain websiteFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
             PathRequest.H2ConsoleRequestMatcher h2ConsoleRequestMatcher = PathRequest.toH2Console();
+
+            HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+            requestCache.setMatchingRequestParameterName(null);
+            http.requestCache((cache) -> cache.requestCache(requestCache));
+
             http.authorizeHttpRequests(requests -> requests
                     .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                     .requestMatchers(
@@ -66,13 +73,20 @@ public class SecurityConfig {
                     .requestMatchers(mvc.pattern("/api/admin/credentials/*")).hasAnyRole(RoleEnum.ADMIN.name(), RoleEnum.SUPERADMIN.name())
                     .requestMatchers(mvc.pattern("/api/admin/delete/*")).hasRole(RoleEnum.SUPERADMIN.name())
                     .requestMatchers(h2ConsoleRequestMatcher).permitAll()
+//                    .requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
+                    .requestMatchers(
+                            mvc.pattern(HttpMethod.GET, "/h2-console"),
+                            mvc.pattern(HttpMethod.GET, "/h2-console/**")
+                            )
+                    .permitAll()
                     .requestMatchers(
                             mvc.pattern("/script/main.js"),
                             mvc.pattern("/script/registration.js"),
                             mvc.pattern("/styles/**")).permitAll()
                     .requestMatchers(mvc.pattern("/img/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/categories/**")).authenticated()
+                    .requestMatchers(mvc.pattern("/api/categories")).authenticated()
                     .requestMatchers(mvc.pattern("/kategorie/**")).authenticated()
+                    .requestMatchers(mvc.pattern("/kategorie")).authenticated()
                     .requestMatchers(mvc.pattern("/edycja/**")).authenticated()
                     .requestMatchers(mvc.pattern("/szukaj/**")).authenticated()
                     .requestMatchers(mvc.pattern("/oferta/**")).authenticated()
@@ -86,6 +100,9 @@ public class SecurityConfig {
                             .logoutSuccessUrl("/"));
             http.csrf(csrf -> csrf
                     .ignoringRequestMatchers(h2ConsoleRequestMatcher)
+                    .ignoringRequestMatchers(
+                            mvc.pattern(HttpMethod.GET, "/h2-console"),
+                            mvc.pattern(HttpMethod.GET, "/h2-console/**"))
             );
             http.csrf((csrf) -> csrf
                             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
@@ -97,7 +114,19 @@ public class SecurityConfig {
                             options.sameOrigin()));
             http.exceptionHandling((exception)-> exception.accessDeniedHandler(new CustomAccessDeniedHandler()));
             DefaultSecurityFilterChain build = http.build();
+
             return build;
+        }
+
+        @Bean
+        WebSecurityCustomizer configureWebSecurity(MvcRequestMatcher.Builder mvc) {
+            return (web) -> web.ignoring().requestMatchers(
+                    mvc.pattern(HttpMethod.GET, "/styles/**"),
+                    mvc.pattern(HttpMethod.GET, "/script/**"),
+                    mvc.pattern(HttpMethod.GET, "/img/**"),
+                    mvc.pattern(HttpMethod.GET, "/api/offers/**"),
+                    mvc.pattern(HttpMethod.GET, "/api/offers"),
+                    PathRequest.toStaticResources().atCommonLocations());
         }
     }
 

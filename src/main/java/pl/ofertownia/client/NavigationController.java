@@ -14,6 +14,9 @@ public class NavigationController {
     String homePage(Model model) {
         model.addAttribute("pathToOffer",
                 ServletUriComponentsBuilder.fromCurrentRequest().path("/oferta").toUriString());
+
+        String uriString = ServletUriComponentsBuilder.fromCurrentRequest().path("").toUriString();
+        model.addAttribute("generalApplicationPath", uriString.substring(0, uriString.length() - 1));
         return "index";
     }
 
@@ -32,6 +35,9 @@ public class NavigationController {
                       HttpServletRequest request) {
         model.addAttribute("pathToOffer",
                 ServletUriComponentsBuilder.fromContextPath(request).path("/oferta").toUriString());
+
+        String uriString = ServletUriComponentsBuilder.fromCurrentRequest().path("").toUriString();
+        model.addAttribute("generalApplicationPath", uriString.substring(0, uriString.length() - "/szukaj".length()));
         return "search";
     }
 

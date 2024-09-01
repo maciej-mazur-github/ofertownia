@@ -1,15 +1,24 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:mem:ofertownia;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
   jpa:
     hibernate:
       ddl-auto: validate
-  mail:
-    host: localhost
-    port: 1025 # port used by Mailpit (mail sender simulator)
-    username: security@spring.com
   liquibase:
     contexts: dev
 logging:
   level:
     org.springframework.security.web: DEBUG
+    pl.ofertownia: DEBUG
+ofertownia:
+  host: localhost
+  port: 1025 # port used by Mailpit (mail sender simulator)
+  userName: security@spring.com
+  password:
+  protocol: smtp
+  smtpAuth: true
+  starttlsEnable: true
+  mailDebugEnable: true

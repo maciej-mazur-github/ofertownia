@@ -1,10 +1,32 @@
-FROM maven:3.9.9-amazoncorretto-17-al2023 AS MAVEN_BUILD
+FROM maven:3.9.9-amazoncorretto-21-debian-bookworm AS MAVEN_BUILD
+
+ARG API_KEY
+ENV API_KEY $API_KEY
+ARG SHARED_KEY
+ENV SHARED_KEY $SHARED_KEY
+ARG DB_DRIVER
+ENV DB_DRIVER $DB_DRIVER
+ARG DB_PASS
+ENV DB_PASS $DB_PASS
+ARG DB_URL
+ENV DB_URL $DB_URL
+ARG DB_USERNAME
+ENV DB_USERNAME $DB_USERNAME
+ARG MAIL_HOST
+ENV MAIL_HOST $MAIL_HOST
+ARG MAIL_PASS
+ENV MAIL_PASS $MAIL_PASS
+ARG MAIL_PORT
+ENV MAIL_PORT $MAIL_PORT
+ARG MAIL_USERNAME
+ENV MAIL_USERNAME $MAIL_USERNAME
+
 COPY ./pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B
 COPY ./src ./src
 RUN mvn package
 
-FROM amazoncorretto:latest
+FROM openjdk:21-slim-bookworm
 EXPOSE 8080
 COPY --from=MAVEN_BUILD /target/ofertownia-*.jar /app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]

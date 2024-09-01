@@ -1,19 +1,12 @@
 spring:
   liquibase:
     change-log: classpath:/db/changelog/master.xml
-#  datasource:
-#    url: jdbc:h2:mem:test
-#  jpa:
-#    hibernate:
-#      ddl-auto: validate
-#  mail:
-#    host: localhost
-#    port: 1025 # port used by Mailpit (mail sender simulator)
-#    username: security@spring.com
-#logging:
-#  level:
-#    org.springframework.security.web: DEBUG
+  profiles:
+    default: dev
+  h2:
+    console:
+      enabled: true
 jws:
-  sharedKey: b55cd585-10cd-48d2-9dfa-cddc7f83f060
+  sharedKey: ${SHARED_KEY}
 openWeather:
-  apiKey: d497ca54f2fb5a6afb08f97611985a4a
+  apiKey: ${API_KEY}

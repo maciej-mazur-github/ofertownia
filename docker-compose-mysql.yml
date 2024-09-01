@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  mysql:
+    image: mysql:8.0.34
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - /opt/ofertownia/src/main/resources/db/docker/init_schema.sql:/docker-entrypoint-initdb.d/SCHEMA.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+  mysql2:
+    image: mysql:8.0.34
+    container_name: mysql2
+    restart: unless-stopped
+    ports:
+      - '3307:3306'
+    volumes:
+      - mysql_data2:/var/lib/mysql
+      - /opt/ofertownia/src/main/resources/db/docker/init_schema2.sql:/docker-entrypoint-initdb.d/SCHEMA.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+networks:
+  default:
+    external:
+      name: ofertownia-network
+volumes:
+  mysql_data:
+  mysql_data2:

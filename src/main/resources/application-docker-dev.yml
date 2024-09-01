@@ -1,0 +1,43 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://mysql:3306/ofertownia_db
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: tajnehaslo
+#  jpa:
+#    hibernate:
+#      ddl-auto: validate
+#  liquibase:
+#    contexts: docker-dev
+#ofertownia:
+#  host: mail.complex.com.pl
+#  port: 587
+#  userName: webmail@serwis.complex.net.pl
+#  password: Plu@@izedS41
+#  protocol: smtp
+#  smtpAuth: true
+#  starttlsEnable: true
+#  mailDebugEnable: false
+#  from: webmail@serwis.complex.net.pl
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: ${DB_DRIVER}
+    username: ${DB_USERNAME}
+    password: ${DB_PASS}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    contexts: docker-dev
+ofertownia:
+  host: ${MAIL_HOST}
+  port: ${MAIL_PORT}
+  userName: ${MAIL_USERNAME}
+  password: ${MAIL_PASS}
+  protocol: smtp
+  smtpAuth: true
+  starttlsEnable: true
+  mailDebugEnable: false
+  from: ${MAIL_USERNAME}
