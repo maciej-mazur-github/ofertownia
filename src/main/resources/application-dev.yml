@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  mail:
+    host: localhost
+    port: 1025 # port used by Mailpit (mail sender simulator)
+    username: security@spring.com
+  liquibase:
+    contexts: dev
+logging:
+  level:
+    org.springframework.security.web: DEBUG

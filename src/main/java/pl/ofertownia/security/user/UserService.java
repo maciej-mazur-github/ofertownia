@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,15 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
 
     private final Mapper mapper;
-    private final JavaMailSenderImpl mailSender;
+//    private final JavaMailSenderImpl mailSender;
+    private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, Mapper mapper, JavaMailSenderImpl mailSender, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       UserRoleRepository userRoleRepository,
+                       Mapper mapper,
+                       JavaMailSender mailSender,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.mapper = mapper;
