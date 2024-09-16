@@ -11,6 +11,6 @@ VALUES
     ('Karol', 'Kowal', 'Wilanowska 89/3', '43-123', 'Warszawa', 'karol@kowal.com', '{bcrypt}$2a$10$g0gM3lVPLG7Dp0GwVZEZ4ugcWHA9qc0Psel/LcFm.ZHR1DgYAzP4O', true),
     -- tomasz@frankowski.com / hjkl / super admin
     ('Tomasz', 'Frankowski', 'Zakopiańska 67/78', '00-234', 'Poznań', 'tomasz@frankowski.com', '{bcrypt}$2a$10$yYmg5ub2pK3fF1vxHpAvv.0PcTrsJBVL7ABrjOE6J5FNm9EtShs6G', true),
-    -- katarzyna@moniuszko.com / hard / super admin
+    -- offerservice@interia.com / hard / super admin
 --     ('Katarzyna', 'Moniuszko', 'Żelazna 123/45', '20-222', 'Bytom', 'katarzyna@moniuszko.com', '{bcrypt}$2a$10$bSiG/sYNC.owiyOEz0AJjOeyd7xZui74IdUd.xlQfV6tfzNkrK6U.', true);
     ('Katarzyna', 'Moniuszko', 'Żelazna 123/45', '20-222', 'Bytom', 'offerservice@interia.com', '{bcrypt}$2a$10$bSiG/sYNC.owiyOEz0AJjOeyd7xZui74IdUd.xlQfV6tfzNkrK6U.', true);

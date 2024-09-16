@@ -73,7 +73,6 @@ public class SecurityConfig {
                     .requestMatchers(mvc.pattern("/api/admin/credentials/*")).hasAnyRole(RoleEnum.ADMIN.name(), RoleEnum.SUPERADMIN.name())
                     .requestMatchers(mvc.pattern("/api/admin/delete/*")).hasRole(RoleEnum.SUPERADMIN.name())
                     .requestMatchers(h2ConsoleRequestMatcher).permitAll()
-//                    .requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
                     .requestMatchers(
                             mvc.pattern(HttpMethod.GET, "/h2-console"),
                             mvc.pattern(HttpMethod.GET, "/h2-console/**")

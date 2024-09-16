@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-//    private static final String SERVER_EMAIL = "maciek@spring.security.com";
     private static final String RESET_EMAIL_SUBJECT = "Reset hasła konta";
 
     private final UserRepository userRepository;
@@ -32,7 +31,6 @@ public class UserService {
     private final MailProperties mailProperties;
 
     private final Mapper mapper;
-//    private final JavaMailSenderImpl mailSender;
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
 
