@@ -75,7 +75,8 @@ class WeatherService {
                             LocalDateTime dateTime = weather.time();
                             String weekDayName = DayOfWeek.getFromString(dateTime.getDayOfWeek().toString()).getTranslation();
                             String dayOfMonth = String.valueOf(dateTime.getDayOfMonth());
-                            String abbrMonth = dateTime.getMonth().getDisplayName(TextStyle.SHORT, new Locale("pl", "Poland"));
+                            String abbrMonth = dateTime.getMonth()
+                                    .getDisplayName(TextStyle.SHORT, new Locale("pl", "Poland"));
                             return "%s, %s %s".formatted(weekDayName, dayOfMonth, abbrMonth);
                         },
                         () -> new LinkedHashMap<>(),

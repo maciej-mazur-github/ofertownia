@@ -9,6 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js" integrity="sha256-J8ay84czFazJ9wcTuSDLpPmwpMXOm573OUtZHPQqpEU=" crossorigin="anonymous"></script>
+    <script th:src="@{/script/jquery.ui.touch-punch.min.js}"></script>
+
     <script th:inline="javascript">
         let longTermForecastSize = [[${forecastFor5Days.size}]];
     </script>
@@ -62,7 +64,7 @@
     </div>
 
     <div class="row w-75 mx-auto">
-        <div class="col-4">
+        <div class="col-sm-4 mb-4">
             <div class="row">
                 <div class="col mb-3">
                     <span th:text="|${currentWeatherViewDto.main.temp}&deg;|" class="h1"></span>
@@ -78,11 +80,11 @@
             </div>
 
         </div>
-        <div class="col-4">
+        <div class="col-sm-4 mb-4">
             <img th:src="${currentWeatherViewDto.weather.iconUrl}"
                  alt="" style="position: relative; top: -30px">
         </div>
-        <div class="col-4">
+        <div class="col-sm-4 mb-4">
             <div class="row">
                 <div class="col mb-4">
                     <span th:text="${currentWeatherViewDto.weather.description}" class="h4"></span>

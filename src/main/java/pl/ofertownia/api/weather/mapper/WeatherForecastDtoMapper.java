@@ -72,7 +72,7 @@ public class WeatherForecastDtoMapper {
     }
 
     private LocalDateTime mapDateToLocaleDateTime(Long dt) {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(dt), ZoneId.systemDefault());
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(dt), ZoneId.of("Europe/Warsaw"));
     }
 
     private ViewWind mapResponseWindToViewWind(ResponseWind wind) {

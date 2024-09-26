@@ -42,14 +42,23 @@ const Error = () => `
     </div>
 `;
 
-const OfferNotFound = () => `
-    <div class="row mt-2">
-        <h2 class="mx-auto">Ta oferta nie istnieje</h2>
+const OfferNotFound = () => {
+    let pathToImage = $('meta[name="pathToImage"]').attr('content');
+
+    return `
+    <div class="jumbotron home-jumbo" style="background-image: url(${pathToImage})">
+        <div class="container text-center text-white jumbo-container">
+            <h1 class="display-3">Ta oferta nie istnieje</h1>
+        </div>
     </div>
-    <div class="row mt-2">
-        <i class="far fa-frown fa-10x mx-auto"></i>
+
+    <div class="container text-center">
+        <div class="row mt-2">
+            <i class="far fa-frown fa-10x mx-auto"></i>
+        </div>
     </div>
-`;
+`
+};
 
 const Offer = (offer) => {
     let pathToImage = $('meta[name="pathToImage"]').attr('content');
@@ -76,11 +85,13 @@ const Offer = (offer) => {
 };
 
 const Success = () => `
-    <div class="row mt-2">
-        <h2 class="mx-auto">Dane zapisano pomyślnie</h2>
-    </div>
-    <div class="row mt-2">
-        <i class="far fa-smile fa-10x mx-auto"></i>
+    <div class="container">
+        <div class="row mt-2">
+            <h2 class="mx-auto text-center">Dane zapisano pomyślnie</h2>
+        </div>
+        <div class="row mt-2 text-center">
+            <i class="far fa-smile fa-10x mx-auto"></i>
+        </div>
     </div>
 `;
 
@@ -96,6 +107,7 @@ const renderOfferList = (url) => {
         } else {
             offerList.html(Empty());
         }
+        history.replaceState(null, "", url);
     }).fail(function (err) {
         offerList.html(Error());
     });
@@ -167,7 +179,6 @@ const registerAddForm = () => {
             type: 'post',
             url: '/api/offers',
             contentType: 'application/json; charset=utf-8',
-            // 'Content-Type': 'x-www-form-urlencoded',
             data: JSON.stringify(formData),
             headers: {
                 'X-XSRF-TOKEN': csrfToken

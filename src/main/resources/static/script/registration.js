@@ -51,10 +51,10 @@ const validatePassword = (passwordInput) => {
     if (passwordInput.value.length === 0) {
         errorMessage = 'Pole nie może być puste';
         invalidMessageDiv.textContent = errorMessage;
-        passwordInput.setCustomValidity('Invalid field'); // ustawia pole 'customError' na true
+        passwordInput.setCustomValidity('Invalid field'); // sets the field 'customError' to true
     }
     if (!checkPasswordRegexes(passwordInput, errorMessage, invalidMessageDiv)) {
-        passwordInput.setCustomValidity('Invalid field'); // ustawia pole 'customError' na true
+        passwordInput.setCustomValidity('Invalid field');
     } else {
         passwordInput.setCustomValidity('');
     }
@@ -79,7 +79,7 @@ const checkPasswordRegexes = (passwordInput, errorMessage, invalidMessageDiv) =>
             invalidMessageDiv.style.whiteSpace = 'pre-line';
             currentErrorMessage += '\n';
         }
-        currentErrorMessage += 'Hasło musi zawierać minimum 1 znak mały';
+        currentErrorMessage += 'Hasło musi zawierać minimum 1 małą literę';
         invalidMessageDiv.textContent = currentErrorMessage;
     }
     if (!atLeastOneUpperCaseLetterRegexTestResult) {
@@ -88,7 +88,7 @@ const checkPasswordRegexes = (passwordInput, errorMessage, invalidMessageDiv) =>
             invalidMessageDiv.style.whiteSpace = 'pre-line';
             currentErrorMessage += '\n';
         }
-        currentErrorMessage += 'Hasło musi zawierać minimum 1 znak duży';
+        currentErrorMessage += 'Hasło musi zawierać minimum 1 dużą literę';
         invalidMessageDiv.textContent = currentErrorMessage;
     }
     if (!atLeastOneSpecialCharacterRegexTestResult) {
