@@ -1,1 +1,1 @@
-CREATE DATABASE IF NOT EXISTS ofertownia_db;
+CREATE DATABASE IF NOT EXISTS data_base_ofertownia;

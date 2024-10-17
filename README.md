@@ -137,14 +137,14 @@ At this point project's UI is held in Polish language as a part of simulating ch
   - view the weather forecast for the upcoming 5 days (expandable page elements)
   - view additional weather conditions details in the form of off-canvas effect
 - use API endpoints (JSON based) at https://ofertownia.codingproductions.com domain to:
-  - download a signed JWT token once you provide the correct credentials to further use it to authorize other endpoint requests - **/api/v2/auth** (POST method)
+  - download a signed JWT (JWS) token once you provide the correct credentials to further use it to authorize other endpoint requests - **/api/v2/auth** (POST method)
   - download the details of all the current offers from database - **/api/v2/offers** (GET method)
   - download the details of all the current offers from database filtered by name, e.g. by phrase "tele" - **/api/v2/offers?title=tele** (GET method)
   - get current offer number - **/api/v2/offers/count** (GET method)
   - get the details of the particular offer by its ID - **/api/v2/offers/{id}** (GET method)
   - save new offer - **/api/v2/offers** (POST method)
   - delete a particular offer by its ID - **/api/v2/offers/{id}** (DELETE method)
-  - use signed (HMAC algorithm with SHA-256 function and with private key generated using java.util.UUID class) JWT tokens for verification and authorization
+  - use signed (HMAC algorithm with SHA-256 function and with private key generated using java.util.UUID class) JWS tokens for verification and authorization
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -179,7 +179,7 @@ At this point project's UI is held in Polish language as a part of simulating ch
 
 ### Spring Security Configuration
 
-I managed to get this application combine 2 different approaches to user session management. I needed the user to be able to operate on most application endpoints in the Internet browser with the use of CSRF protection and login pages. This approach requires the user session to be maintained for any user request. <br>I also needed to provide the user with the possibility to use the API that I built for /api/v2/offers based endpoints and for signed JWT tokens to be used (to obtain the signed JWT token you need to send POST request to /api/v2/auth with JSON containing 'username' and 'password' fields combined with correct credentials). This approach required the user session to be omitted.<br> I managed to overcome this clash by using 2 nested static classes (both annotated with @Configuration) ordered with @Order annotation. This allowed the application for holding the user session for below shown endpoints (here is just the fragment), for keeping CSRF protection and Spring Security Basic Authentication (using login pages requiring the user to provide the proper credentials to establish the session) and for client side JavaScript to properly attach CSRF token cookies as X-XSRF HTPP request header:
+I managed to get this application combine 2 different approaches to user session management. I needed the user to be able to operate on most application endpoints in the Internet browser with the use of CSRF protection and login pages. This approach requires the user session to be maintained for any user request. <br>I also needed to provide the user with the possibility to use the API that I built for /api/v2/offers based endpoints and for signed JWT (JWS) tokens to be used (to obtain the signed JWS token you need to send POST request to /api/v2/auth with JSON containing 'username' and 'password' fields combined with correct credentials). This approach required the user session to be omitted.<br> I managed to overcome this clash by using 2 nested static classes (both annotated with @Configuration) ordered with @Order annotation. This allowed the application for holding the user session for below shown endpoints (here is just the fragment), for keeping CSRF protection and Spring Security Basic Authentication (using login pages requiring the user to provide the proper credentials to establish the session) and for client side JavaScript to properly attach CSRF token cookies as X-XSRF HTPP request header:
 
 <p align="center">
   <img alt="spring-security-config-1.png" title="Spring security config fragment 1" src="images/github_readme/spring-security-config-1.png" width="800">
@@ -203,7 +203,7 @@ I managed to get this application combine 2 different approaches to user session
   <img alt="spring-security-config-5.png" title="Spring Security config fragment 2 for /api/v2/" src="images/github_readme/spring-security-config-5.png" width="700">
 </p>
 <br><br>
-This is how to obtain a signed JWT token (valid for 30 days):
+This is how to obtain a signed JWS token (valid for 30 days):
 <p align="center">
   <img alt="spring-security-config-7.png" title="Postman screenshot 1" src="images/github_readme/spring-security-config-7.png" width="900">
 </p>
